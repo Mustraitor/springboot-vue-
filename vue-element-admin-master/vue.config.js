@@ -32,9 +32,9 @@ module.exports = {
   devServer: {
     host:'0.0.0.0',
     port: 9527,
-    client: {
-     webSocketURL: 'ws://localhost:9527/ws'
-    },
+    // client: {
+    //  webSocketURL: 'ws://localhost:9527/ws'
+    // },
     proxy: {
       [process.env.VUE_APP_BASE_API]: {
         target: 'http://localhost:8080',

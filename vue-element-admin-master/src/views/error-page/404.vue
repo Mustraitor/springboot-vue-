@@ -24,16 +24,16 @@
 
 export default {
   name: 'Page404',
-  mounted(){
-    const home = '/dashboard' // 或 store.getters.homePath
-    setTimeout(() => {
-      this.$router.replace(home)
-    }, 1)
-  },
   computed: {
     message() {
       return 'The webmaster said that you can not enter this page...'
     }
+  },
+  mounted() {
+    const home = '/dashboard' // 或 store.getters.homePath
+    setTimeout(() => {
+      this.$router.replace(home)
+    }, 0.5)
   }
 }
 </script>

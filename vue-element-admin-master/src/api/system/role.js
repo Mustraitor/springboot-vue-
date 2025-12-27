@@ -38,3 +38,11 @@ export function delRole(roleId) {
     method: 'delete'
   })
 }
+
+export function updateRoleStatus(data) {
+  return request({
+    url: '/system/role/changeStatus',
+    method: 'put',
+    data: data
+  })
+}

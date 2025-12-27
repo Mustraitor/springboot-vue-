@@ -121,9 +121,9 @@
           <!-- 角色编号 -->
           <el-table-column prop="roleId" label="角色编号" align="center" />
           <!-- 角色名称 -->
-          <el-table-column prop="roleName" label="角色名称" align="center" :show-overflow-tooltip = true />
+          <el-table-column prop="roleName" label="角色名称" align="center" :show-overflow-tooltip="true" />
           <!-- 权限字符 -->
-          <el-table-column prop="roleKey" label="权限字符" align="center" :show-overflow-tooltip = true />
+          <el-table-column prop="roleKey" label="权限字符" align="center" :show-overflow-tooltip="true" />
 
           <!-- 状态 -->
           <el-table-column label="状态" align="center">
@@ -140,7 +140,7 @@
           <!-- 创建时间 -->
           <el-table-column label="创建日期" align="center">
             <template slot-scope="scope">
-              <i class="el-icon-time"></i>
+              <i class="el-icon-time" />
               <span>{{ scope.row.createTime }}</span>
             </template>
           </el-table-column>
@@ -176,59 +176,6 @@
         />
       </el-col>
     </el-row>
-    <!-- <el-dialog :title="title" :visible.sync="open" width="600px">
-  <el-form ref="form" :model="form" :rules="rules" label-width="90px">
-
-    <el-row :gutter="20">
-      <el-col :span="12">
-        <el-form-item label="角色名称" prop="roleName">
-          <el-input v-model="form.roleName" placeholder="请输入角色名称" />
-        </el-form-item>
-      </el-col>
-      <el-col :span="12">
-        <el-form-item label="权限字符" prop="roleKey">
-          <el-input v-model="form.roleKey" placeholder="请输入权限字符" />
-        </el-form-item>
-      </el-col>
-
-      <el-col :span="12">
-        <el-form-item label="显示顺序" prop="roleSort">
-          <el-input-number v-model.number="form.roleSort" :min="1" :controls-position="'right'" />
-        </el-form-item>
-      </el-col>
-
-      <el-col :span="12">
-        <el-form-item label="状态" prop="status">
-          <el-radio-group v-model="form.status">
-            <el-radio :label="'0'">正常</el-radio>
-            <el-radio :label="'1'">停用</el-radio>
-          </el-radio-group>
-        </el-form-item>
-      </el-col>
-  <el-form-item label="菜单权限">
-    <el-tree
-      ref="menu"
-      :data="menuOptions"
-      show-checkbox
-      node-key="id"
-      default-expand-all
-      :props="{ children: 'children', label: 'label' }"
-    />
-  </el-form-item>
-      <el-col :span="24">
-        <el-form-item label="备注">
-          <el-input v-model="form.remark" type="textarea" placeholder="请输入备注" />
-        </el-form-item>
-      </el-col>
-
-    </el-row>
-  </el-form>
-
-  <template #footer>
-    <el-button type="primary" @click="submitForm">确定</el-button>
-    <el-button @click="cancel">取消</el-button>
-  </template>
-</el-dialog> -->
     <el-dialog :title="title" :visible.sync="open" width="600px">
       <el-form ref="form" :model="form" :rules="rules" label-width="90px">
 
@@ -301,45 +248,45 @@
 </template>
 
 <script>
-import { listRole, getRole, addRole, updateRole, delRole } from '@/api/system/role'
-import { treeselect, roleMenuTreeselect } from "@/api/system/menu";
+import { listRole, getRole, addRole, updateRole, delRole, updateRoleStatus } from '@/api/system/role'
+import { treeselect, roleMenuTreeselect } from '@/api/system/menu'
 
 export default {
   data() {
     return {
-      roleList: [],           // 角色列表
-      listLoading: true,      // 表格加载状态
-      total: 0,   // 数据总数
+      roleList: [], // 角色列表
+      listLoading: true, // 表格加载状态
+      total: 0, // 数据总数
       menuOptions: [],
-      queryParams: {          // 查询参数
+      queryParams: { // 查询参数
         page: 1,
         size: 10,
-        roleName: undefined,  // 角色名称（模糊查询）
-        status: undefined     // 角色状态
+        roleName: undefined, // 角色名称（模糊查询）
+        status: undefined // 角色状态
       },
 
-      statusOptions: [        // 状态选择
+      statusOptions: [ // 状态选择
         { dictLabel: '正常', dictValue: '0' },
         { dictLabel: '停用', dictValue: '1' }
       ],
 
-      single: true,           // 是否单选（修改按钮可用性）
-      multiple: true,         // 是否有选中（删除按钮可用性）
-      title: '',              // 弹窗标题
-      open: false,            // 弹窗显示状态
+      single: true, // 是否单选（修改按钮可用性）
+      multiple: true, // 是否有选中（删除按钮可用性）
+      title: '', // 弹窗标题
+      open: false, // 弹窗显示状态
 
-    form: {
-      roleId: undefined,
-      roleName: '',
-      roleKey: '',
-      roleSort: 1,   // Number
-      status: '0',
-      remark: '',
-      dataScope: '1',
-      menuIds: []    // 对应 VO 的 Long[]
-    },
+      form: {
+        roleId: undefined,
+        roleName: '',
+        roleKey: '',
+        roleSort: 1, // Number
+        status: '0',
+        remark: '',
+        dataScope: '1',
+        menuIds: [] // 对应 VO 的 Long[]
+      },
 
-      rules: {                // 表单校验规则
+      rules: { // 表单校验规则
         roleName: [
           { required: true, message: '角色名称不能为空', trigger: 'blur' }
         ],
@@ -362,7 +309,7 @@ export default {
     async getList() {
       this.listLoading = true
       const response = await listRole(this.queryParams)
-      console.log(response);
+      console.log(response)
       this.roleList = response.rows
       this.total = response.total
       this.listLoading = false
@@ -385,9 +332,8 @@ export default {
       this.title = '添加角色'
       // this.form.status = ''
       treeselect().then(res => {
-        this.menuOptions = res.data;
-      });
-
+        this.menuOptions = res.data
+      })
     },
 
     /** 修改角色 */
@@ -400,35 +346,31 @@ export default {
         this.open = true
         this.title = '修改角色'
         roleMenuTreeselect(roleId).then(res => {
-          this.menuOptions = res.menus;        // 树数据
-          const checkedKeys = res.checkedKeys; // 已勾选菜单 ID
+          this.menuOptions = res.menus // 树数据
+          const checkedKeys = res.checkedKeys // 已勾选菜单 ID
           this.$nextTick(() => {
-            this.$refs.menu.setCheckedKeys(checkedKeys || []);
-          });
+            this.$refs.menu.setCheckedKeys(checkedKeys || [])
+          })
         })
-
       })
     },
 
-
-
     /** 提交表单（新增/修改） */
-    submitForm () {
+    submitForm() {
       this.$refs['form'].validate(valid => {
         if (valid) {
-
           this.form.menuIds = [
             ...this.$refs.menu.getCheckedKeys(),
             ...this.$refs.menu.getHalfCheckedKeys()
           ]
 
-          delete this.form.createTime;
-          delete this.form.updateTime;
+          // delete this.form.createTime;
+          // delete this.form.updateTime;
           console.log(this.form)
           if (this.form.roleId !== undefined) {
             updateRole(this.form).then(response => {
-              console.log(this.form);
-              console.log(response);
+              console.log(this.form)
+              console.log(response)
 
               if (response.code === 200) {
                 this.msgSuccess('修改成功')
@@ -456,16 +398,16 @@ export default {
     /** 删除角色 */
     handleDelete(row) {
       const roleIds = row.roleId || this.ids
-      this.$confirm('是否确认删除用户编号为'+ roleIds + '的数据项？', '警告', {
+      this.$confirm('是否确认删除用户编号为' + roleIds + '的数据项？', '警告', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
-       }).then(function() {
+      }).then(function() {
         return delRole(roleIds)
-       }).then(() => {
+      }).then(() => {
         this.getList()
         this.msgSuccess('删除成功')
-       }).catch(function() {})
+      }).catch(function() {})
     },
 
     /** 多选框 */
@@ -474,6 +416,10 @@ export default {
       this.single = selection.length !== 1
       this.multiple = !selection.length
     },
+    handleStatusChange(row) {
+      // console.log(row);
+      updateRoleStatus({ roleId: row.roleId, status: row.status })
+    },
 
     /** 重置表单 */
     reset() {
@@ -481,11 +427,11 @@ export default {
         roleId: undefined,
         roleName: '',
         roleKey: '',
-        roleSort: 1,   // Number
+        roleSort: 1, // Number
         status: '0',
         remark: '',
         dataScope: '1',
-        menuIds: []    // 对应 VO 的 Long[]
+        menuIds: [] // 对应 VO 的 Long[]
       }
       this.resetForm('form')
     },

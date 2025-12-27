@@ -144,7 +144,7 @@
 
           <!-- 状态 -->
           <el-table-column label="状态" align="center">
-            <template #default ="scope">
+            <template #default="scope">
               <el-switch
                 v-model="scope.row.status"
                 active-value="0"
@@ -156,7 +156,7 @@
 
           <!-- 创建日期 -->
           <el-table-column label="创建日期" align="center">
-            <template slot-scope = "scope">
+            <template slot-scope="scope">
               <i class="el-icon-time" />
               <span>{{ scope.row.createTime }}</span>
             </template>
@@ -195,138 +195,133 @@
         />
       </el-col>
     </el-row>
-    <el-dialog
-  :title="title"
-  :visible.sync="open"
-  width="600px"
->
-  <el-form
-    ref="form"
-    :model="form"
-    :rules="rules"
-    label-width="80px"
-  >
-    <el-row :gutter="20">
-      <!-- 用户昵称 -->
-      <el-col :span="12">
-        <el-form-item label="用户昵称" prop="nickName">
-          <el-input
-            v-model="form.nickName"
-            placeholder="请输入用户昵称"
-          />
-        </el-form-item>
-      </el-col>
+    <el-dialog :title="title" :visible.sync="open" width="600px">
+      <el-form
+        ref="form"
+        :model="form"
+        :rules="rules"
+        label-width="80px"
+      >
+        <el-row :gutter="20">
+          <!-- 用户昵称 -->
+          <el-col :span="12">
+            <el-form-item label="用户昵称" prop="nickName">
+              <el-input
+                v-model="form.nickName"
+                placeholder="请输入用户昵称"
+              />
+            </el-form-item>
+          </el-col>
 
-      <!-- 手机号码 -->
-      <el-col :span="12">
-        <el-form-item label="手机号码" prop="phonenumber">
-          <el-input
-            v-model="form.phonenumber"
-            placeholder="请输入手机号码"
-            maxlength="11"
-          />
-        </el-form-item>
-      </el-col>
+          <!-- 手机号码 -->
+          <el-col :span="12">
+            <el-form-item label="手机号码" prop="phonenumber">
+              <el-input
+                v-model="form.phonenumber"
+                placeholder="请输入手机号码"
+                maxlength="11"
+              />
+            </el-form-item>
+          </el-col>
 
-      <!-- 邮箱 -->
-      <el-col :span="12">
-        <el-form-item label="邮箱" prop="email">
-          <el-input
-            v-model="form.email"
-            placeholder="请输入邮箱"
-            maxlength="50"
-          />
-        </el-form-item>
-      </el-col>
+          <!-- 邮箱 -->
+          <el-col :span="12">
+            <el-form-item label="邮箱" prop="email">
+              <el-input
+                v-model="form.email"
+                placeholder="请输入邮箱"
+                maxlength="50"
+              />
+            </el-form-item>
+          </el-col>
 
-      <!-- 用户名称 -->
-      <el-col :span="12">
-        <el-form-item label="用户名称" prop="userName">
-          <el-input
-            v-model="form.userName"
-            placeholder="请输入用户名称"
-          />
-        </el-form-item>
-      </el-col>
+          <!-- 用户名称 -->
+          <el-col :span="12">
+            <el-form-item label="用户名称" prop="userName">
+              <el-input
+                v-model="form.userName"
+                placeholder="请输入用户名称"
+              />
+            </el-form-item>
+          </el-col>
 
-      <!-- 用户密码（仅新增时显示） -->
-      <el-col :span="12">
-        <el-form-item v-if="!form.userId" label="用户密码" prop="password">
-          <el-input
-            v-model="form.password"
-            placeholder="请输入用户密码"
-            type="password"
-          />
-        </el-form-item>
-      </el-col>
+          <!-- 用户密码（仅新增时显示） -->
+          <el-col :span="12">
+            <el-form-item v-if="!form.userId" label="用户密码" prop="password">
+              <el-input
+                v-model="form.password"
+                placeholder="请输入用户密码"
+                type="password"
+              />
+            </el-form-item>
+          </el-col>
 
-      <!-- 用户性别 -->
-      <el-col :span="12">
-        <el-form-item label="用户性别">
-          <el-select v-model="form.sex" placeholder="请选择">
-            <el-option
-              v-for="dict in sexOptions"
-              :key="dict.dictValue"
-              :label="dict.dictLabel"
-              :value="dict.dictValue"
-            />
-          </el-select>
-        </el-form-item>
-      </el-col>
+          <!-- 用户性别 -->
+          <el-col :span="12">
+            <el-form-item label="用户性别">
+              <el-select v-model="form.sex" placeholder="请选择">
+                <el-option
+                  v-for="dict in sexOptions"
+                  :key="dict.dictValue"
+                  :label="dict.dictLabel"
+                  :value="dict.dictValue"
+                />
+              </el-select>
+            </el-form-item>
+          </el-col>
 
-      <!-- 角色 -->
-      <el-col :span="12">
-        <el-form-item label="角色">
-          <el-select
-            v-model="form.roleIds"
-            multiple
-            placeholder="请选择"
-          >
-            <el-option
-              v-for="item in roleOptions"
-              :key="item.roleId"
-              :label="item.roleName"
-              :value="item.roleId"
-              :disabled="item.status === 1"
-            />
-          </el-select>
-        </el-form-item>
-      </el-col>
+          <!-- 角色 -->
+          <el-col :span="12">
+            <el-form-item label="角色">
+              <el-select
+                v-model="form.roleIds"
+                multiple
+                placeholder="请选择"
+              >
+                <el-option
+                  v-for="item in roleOptions.filter(r => r.delFlag === '0')"
+                  :key="item.roleId"
+                  :label="item.roleName"
+                  :value="item.roleId"
+                  :disabled="item.delFlag === '2'"
+                />
+              </el-select>
+            </el-form-item>
+          </el-col>
 
-      <!-- 状态 -->
-      <el-col :span="12">
-        <el-form-item label="状态">
-          <el-radio-group v-model="form.status">
-            <el-radio
-              v-for="dict in statusOptions"
-              :key="dict.dictValue"
-              :label="dict.dictValue"
-            >
-              {{ dict.dictLabel }}
-            </el-radio>
-          </el-radio-group>
-        </el-form-item>
-      </el-col>
+          <!-- 状态 -->
+          <el-col :span="12">
+            <el-form-item label="状态">
+              <el-radio-group v-model="form.status">
+                <el-radio
+                  v-for="dict in statusOptions"
+                  :key="dict.dictValue"
+                  :label="dict.dictValue"
+                >
+                  {{ dict.dictLabel }}
+                </el-radio>
+              </el-radio-group>
+            </el-form-item>
+          </el-col>
 
-      <!-- 备注 -->
-      <el-col :span="24">
-        <el-form-item label="备注">
-          <el-input
-            v-model="form.remark"
-            type="textarea"
-            placeholder="请输入内容"
-          />
-        </el-form-item>
-      </el-col>
-    </el-row>
-  </el-form>
-
-  <!-- 底部按钮 -->
-  <template #footer>
-    <el-button type="primary" @click="submitForm">确定</el-button>
-    <el-button @click="cancel">取消</el-button>
-  </template>
-</el-dialog>
+          <!-- 备注 -->
+          <el-col :span="24">
+            <el-form-item label="备注">
+              <el-input
+                v-model="form.remark"
+                type="textarea"
+                placeholder="请输入内容"
+              />
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-form>
+      <!-- 底部按钮 -->
+      <template #footer>
+        <el-button type="primary" @click="submitForm">确定</el-button>
+        <el-button @click="cancel">取消</el-button>
+      </template>
+    </el-dialog>
 
   </div>
 </template>
@@ -396,7 +391,7 @@ export default {
             trigger: 'blur'
           }
         ]
-      },
+      }
 
     }
   },
@@ -422,33 +417,33 @@ export default {
     handleAdd() {
       this.reset()
       getUser().then(response => {
-        this.roleOptions = response.roles,
-        this.open = true,
-        this.title = '添加用户',
+        this.roleOptions = response.roles
+        this.open = true
+        this.title = '添加用户'
         this.form.password = this.initPassword
       })
       // console.log('新增用户')
     },
     submitForm: function() {
       this.$refs['form'].validate(valid => {
-        if(valid){
-          if(this.form.userId !== undefined){
+        if (valid) {
+          if (this.form.userId !== undefined) {
             updateUser(this.form).then(response => {
-              if(response.code === 200){
+              if (response.code === 200) {
                 this.msgSuccess('修改成功')
                 this.open = false
                 this.getList()
-              }else {
+              } else {
                 this.msgError(response.msg)
               }
             })
-          }else {
+          } else {
             addUser(this.form).then(response => {
-              if(response.code === 200){
+              if (response.code === 200) {
                 this.msgSuccess('新增成功')
                 this.open = false
                 this.getList()
-              }else {
+              } else {
                 this.msgError(response.msg)
               }
             })
@@ -457,17 +452,16 @@ export default {
       })
     },
     cancel() {
-      this.open = false,
+      this.open = false
       this.reset()
     },
     handleUpdate(row) {
       this.reset()
       const userId = row.userId || this.ids
       getUser(userId).then(response => {
-        console.log(response);
-
         this.form = { ...this.form, ...response.data }
         this.roleOptions = response.roles
+        console.log(this.roleOptions)
         this.form.roleIds = response.roleIds.map(id => Number(id))
         this.open = true
         this.title = '修改用户'
@@ -476,45 +470,19 @@ export default {
     },
     handleDelete(row) {
       const userIds = row.userId || this.ids
-      this.$confirm('是否确认删除用户编号为'+ userIds + '的数据项？', '警告', {
+      this.$confirm('是否确认删除用户编号为' + userIds + '的数据项？', '警告', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
-       }).then(function() {
+      }).then(function() {
         return delUser(userIds)
-       }).then(() => {
+      }).then(() => {
         this.getList()
         this.msgSuccess('删除成功')
-       }).catch(function() {})
+      }).catch(function() {})
       // console.log('删除用户', row)
     },
     handleStatusChange(row) {
-  //       const text = row.status === '0' ? '启用' : '停用'
-
-  // this.$confirm(`确认要 ${text} 用户 "${row.userName}" 吗？`, '提示', {
-  //   confirmButtonText: '确定',
-  //   cancelButtonText: '取消',
-  //   type: 'warning'
-  // }).then(() => {
-
-  //   // 只更新状态和用户ID即可
-  //   const updateData = {
-  //     userId: row.userId,
-  //     status: row.status
-  //   }
-
-  //   updateUser(updateData).then(response => {
-  //     if (response.code === 200) {
-  //       this.msgSuccess(`${text}成功`)
-  //     } else {
-  //       this.msgError(response.msg)
-  //     }
-  //   })
-
-  // }).catch(() => {
-  //   // 如果取消，则还原之前的开关状态
-  //   row.status = row.status === '0' ? '1' : '0'
-  // })
     },
     handleSelectionChange(selection) {
       this.ids = selection.map(item => item.userId)

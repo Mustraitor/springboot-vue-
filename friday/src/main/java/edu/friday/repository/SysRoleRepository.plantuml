@@ -1,0 +1,90 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+interface CrudRepository<T, ID> << interface >> {
+  + deleteAll(Iterable<T>): void
+  + deleteById(ID): void
+  + existsById(ID): boolean
+  + count(): long
+  + findAllById(Iterable<ID>): Iterable<T>
+  + save(S): S
+  + saveAll(Iterable<S>): Iterable<S>
+  + findById(ID): Optional<T>
+  + deleteAllById(Iterable<ID>): void
+  + findAll(): Iterable<T>
+  + deleteAll(): void
+  + delete(T): void
+}
+annotation Indexed << annotation >>
+interface JpaRepository<T, ID> << interface >> {
+  + findAll(Example<S>, Sort): List<S>
+  + saveAllAndFlush(Iterable<S>): List<S>
+  + getOne(ID): T
+  + getById(ID): T
+  + flush(): void
+  + findAll(Example<S>): List<S>
+  + saveAndFlush(S): S
+  + getReferenceById(ID): T
+  + deleteAllInBatch(): void
+  + deleteAllByIdInBatch(Iterable<ID>): void
+  + deleteInBatch(Iterable<T>): void
+  + deleteAllInBatch(Iterable<T>): void
+}
+interface ListCrudRepository<T, ID> << interface >> {
+  + saveAll(Iterable<S>): List<S>
+  + findAllById(Iterable<ID>): List<T>
+  + findAll(): List<T>
+}
+interface ListPagingAndSortingRepository<T, ID> << interface >> {
+  + findAll(Sort): List<T>
+}
+annotation NoRepositoryBean << annotation >>
+interface PagingAndSortingRepository<T, ID> << interface >> {
+  + findAll(Sort): Iterable<T>
+  + findAll(Pageable): Page<T>
+}
+interface QueryByExampleExecutor<T> << interface >> {
+  + findAll(Example<S>, Sort): Iterable<S>
+  + findAll(Example<S>): Iterable<S>
+  + findBy(Example<S>, Function<FetchableFluentQuery<S>, R>): R
+  + findAll(Example<S>, Pageable): Page<S>
+  + count(Example<S>): long
+  + exists(Example<S>): boolean
+  + findOne(Example<S>): Optional<S>
+}
+annotation Repository << annotation >> {
+  + value(): String
+}
+interface Repository<T, ID> << interface >>
+interface SysRoleCustomRepository << interface >> {
+  + batchInsertRoleMenu(Long[], Long[]): int
+}
+interface SysRoleRepository << interface >> {
+  + deleteRoleByIds(Long[]): int
+  + deleteRoleMenuByRoleId(Long): int
+  + selectRoleIdsByUserId(Long): List<Long>
+  + selectRoleByUserId(Long): List<SysRole>
+  + countUserRoleByRoleId(Long): int
+}
+
+CrudRepository                  -[#999900,dotted]-  NoRepositoryBean               
+CrudRepository                  -[#008200,plain]-^  Repository                     
+JpaRepository                   -[#008200,plain]-^  ListCrudRepository             
+JpaRepository                   -[#008200,plain]-^  ListPagingAndSortingRepository 
+JpaRepository                   -[#999900,dotted]-  NoRepositoryBean               
+JpaRepository                   -[#008200,plain]-^  QueryByExampleExecutor         
+ListCrudRepository              -[#008200,plain]-^  CrudRepository                 
+ListCrudRepository              -[#999900,dotted]-  NoRepositoryBean               
+ListPagingAndSortingRepository  -[#999900,dotted]-  NoRepositoryBean               
+ListPagingAndSortingRepository  -[#008200,plain]-^  PagingAndSortingRepository     
+PagingAndSortingRepository      -[#999900,dotted]-  NoRepositoryBean               
+PagingAndSortingRepository      -[#008200,plain]-^  Repository                     
+Repository                      -[#999900,dotted]-  Indexed                        
+SysRoleCustomRepository         -[#999900,dotted]-  Repository                     
+SysRoleRepository               -[#008200,plain]-^  JpaRepository                  
+SysRoleRepository               -[#999900,dotted]-  Repository                     
+SysRoleRepository               -[#008200,plain]-^  SysRoleCustomRepository        
+@enduml

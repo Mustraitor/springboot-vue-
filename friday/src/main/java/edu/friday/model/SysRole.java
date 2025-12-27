@@ -1,18 +1,18 @@
 package edu.friday.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import edu.friday.common.base.BaseModel;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.time.Instant;
 
 @Getter
-@Setter
+@Data
 @Entity
 @Table(name = "sys_role", schema = "friday")
-public class SysRole {
+public class SysRole extends BaseModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "role_id", nullable = false)
@@ -38,19 +38,19 @@ public class SysRole {
     @Column(name = "del_flag")
     private String delFlag;
 
-    @ColumnDefault("''")
-    @Column(name = "create_by", length = 64)
-    private String createBy;
+//    @ColumnDefault("''")
+//    @Column(name = "create_by", length = 64)
+//    private String createBy;
 
-    @Column(name = "create_time")
-    private Instant createTime;
+//    @Column(name = "create_time")
+//    private Instant createTime;
 
-    @ColumnDefault("''")
-    @Column(name = "update_by", length = 64)
-    private String updateBy;
+//    @ColumnDefault("''")
+//    @Column(name = "update_by", length = 64)
+//    private String updateBy;
 
-    @Column(name = "update_time")
-    private Instant updateTime;
+//    @Column(name = "update_time")
+//    private Instant updateTime;
 
     @Column(name = "remark", length = 500)
     private String remark;
