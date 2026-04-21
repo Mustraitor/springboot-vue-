@@ -39,7 +39,7 @@ services:
     build: ./friday
     container_name: friday-server
     ports:
-      - "8081:8080"
+      - "8080:8080"
     depends_on:
       friday-db:
         condition: service_healthy
