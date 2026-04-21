@@ -11,37 +11,10 @@
 # # 执行打包命令，跳过测试
 # RUN mvn clean package -DskipTests
 
-# # 第二阶段：运行环境（使用完整 JDK 镜像）
-# FROM eclipse-temurin:17
-
-# RUN apt-get update && \
-#     apt-get install -y locales && \
-#     locale-gen zh_CN.UTF-8
-
-# WORKDIR /app
-
-# # 设置时区
-# ENV TZ=Asia/Shanghai
-
-# # 拷贝 jar 包
-# COPY --from=build /app/target/*.jar app.jar
-
-# # 暴露端口
-# EXPOSE 8080
-
-# # 启动 Spring Boot
-# ENTRYPOINT ["java", "-jar", "app.jar"]
-
-
 # 直接使用基础运行环境
 FROM eclipse-temurin:17
 
-# RUN apt-get update && \
-#     apt-get install -y locales && \
-#     locale-gen zh_CN.UTF-8
-
 WORKDIR /app
-
 # 设置时区
 ENV TZ=Asia/Shanghai
 

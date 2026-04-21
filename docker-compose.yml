@@ -26,7 +26,7 @@ services:
     image: redis:latest
     container_name: friday-redis
     ports:
-      - "6379:6379"
+      - "6378:6379"
     restart: always
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
@@ -39,7 +39,7 @@ services:
     build: ./friday
     container_name: friday-server
     ports:
-      - "8080:8080"
+      - "8081:8080"
     depends_on:
       friday-db:
         condition: service_healthy
@@ -60,7 +60,7 @@ services:
     build: ./vue-element-admin-master
     container_name: friday-ui
     ports:
-      - "80:80"
+      - "81:80"
     depends_on:
       - friday-server
     restart: always
