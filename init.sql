@@ -1,6 +1,7 @@
 CREATE DATABASE IF NOT EXISTS sport_shop DEFAULT CHARSET utf8mb4;
 USE sport_shop;
-
+SET NAMES utf8mb4;
+ALTER DATABASE sport_shop CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 -- =====================================================
 -- RuoYi 系统表
 -- =====================================================
